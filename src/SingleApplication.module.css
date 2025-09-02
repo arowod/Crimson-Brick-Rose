@@ -21,3 +21,14 @@
   color: #999;
   margin-bottom: 5px;
 }
+
+.emailLink {
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.emailLink:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}

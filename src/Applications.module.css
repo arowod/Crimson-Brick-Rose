@@ -3,3 +3,40 @@
   max-width: 1200px;
   margin: 0 auto;
 }
+
+.loadMoreContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  padding: 20px;
+}
+
+.loadMoreButton {
+  width: 200px;
+  height: 39px;
+  background-color: #0c2340;
+  color: #ffffff;
+  border: none;
+  padding: 8px 24px;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.loading {
+  text-align: center;
+  padding: 20px;
+  font-size: 16px;
+  color: #666;
+}
+
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  padding: 12px;
+  margin: 10px 0;
+  text-align: center;
+}

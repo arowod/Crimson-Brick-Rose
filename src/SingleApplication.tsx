@@ -14,7 +14,9 @@ const SingleApplication = ({ application }) => {
       </div>
       <div className={styles.cell}>
         <sub>Email</sub>
-        {application.email}
+        <a href={`mailto:${application.email}`} className={styles.emailLink}>
+          {application.email}
+        </a>
       </div>
       <div className={styles.cell}>
         <sub>Loan Amount</sub>
