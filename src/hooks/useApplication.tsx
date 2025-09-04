@@ -4,7 +4,6 @@ const useApplications = () => {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [limit] = useState(5);
   const [hasMore, setHasMore] = useState(true);
   const [error, setError] = useState(null);
 
@@ -54,7 +53,6 @@ const useApplications = () => {
       }
     } catch (err) {
       setError(err.message);
-      console.error("Error fetching applications:", err);
     } finally {
       setLoading(false);
     }
@@ -64,6 +62,14 @@ const useApplications = () => {
     const nextPage = currentPage + 1;
     setCurrentPage(nextPage);
     fetchApplications(nextPage, true);
+  };
+
+  const retry = () => {
+    setApplications([]);
+    setCurrentPage(1);
+    setHasMore(true);
+    setError(null);
+    fetchApplications(1, false);
   };
 
   useEffect(() => {
@@ -76,6 +82,8 @@ const useApplications = () => {
     hasMore,
     error,
     loadMore,
+    retry,
+    lastFailedPage: error ? currentPage : null,
   };
 };
 
