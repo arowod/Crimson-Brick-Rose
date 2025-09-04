@@ -8,12 +8,12 @@ const useApplications = () => {
   const [hasMore, setHasMore] = useState(true);
   const [error, setError] = useState(null);
 
-  const parseLinkHeader = (
-    linkHeader: string | null
-  ): Record<string, string> => {
+  const ITEMS_PER_PAGE = 5;
+
+  const parseLinkHeader = (linkHeader: string): { [key: string]: string } => {
     if (!linkHeader) return {};
 
-    const links: Record<string, string> = {};
+    const links: { [key: string]: string } = {};
     const parts = linkHeader.split(",");
 
     parts.forEach((part) => {
@@ -28,13 +28,13 @@ const useApplications = () => {
     return links;
   };
 
-  const fetchApplications = async (page = 1, itemLimit = 5) => {
+  const fetchApplications = async (page = 1, append = false) => {
     setLoading(true);
     setError(null);
 
     try {
       const response = await fetch(
-        `http://localhost:3001/api/applications?_page=${page}&_limit=${itemLimit}`
+        `http://localhost:3001/api/applications?_page=${page}&_limit=${ITEMS_PER_PAGE}`
       );
 
       if (!response.ok) {
@@ -46,7 +46,12 @@ const useApplications = () => {
       const links = parseLinkHeader(linkHeader);
 
       setHasMore(!!links.next);
-      setApplications(data);
+
+      if (append) {
+        setApplications((prevApplications) => [...prevApplications, ...data]);
+      } else {
+        setApplications(data);
+      }
     } catch (err) {
       setError(err.message);
       console.error("Error fetching applications:", err);
@@ -58,22 +63,19 @@ const useApplications = () => {
   const loadMore = () => {
     const nextPage = currentPage + 1;
     setCurrentPage(nextPage);
-    fetchApplications(nextPage, limit);
+    fetchApplications(nextPage, true);
   };
 
   useEffect(() => {
-    fetchApplications(1, limit);
-  }, [limit]);
+    fetchApplications(1, false);
+  }, []);
 
   return {
     applications,
     loading,
-    currentPage,
-    limit,
     hasMore,
     error,
     loadMore,
-    refetch: () => fetchApplications(currentPage, limit),
   };
 };
 
